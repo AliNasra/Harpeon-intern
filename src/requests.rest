@@ -1,0 +1,190 @@
+GET   http://localhost:5000/addCity/Istanbul
+content-type: application/json
+
+###
+GET   http://localhost:5000/addCity/Izmir
+content-type: application/json
+
+###
+GET   http://localhost:5000/addCity/Ankara
+content-type: application/json
+
+###
+GET   http://localhost:5000/addCity/Eskisehir
+content-type: application/json
+
+###
+POST http://localhost:5000/signup
+Content-type: application/json
+
+{
+    "username"  : "alizade",
+    "password"  : "husrev",
+	"name"      : "ali",
+	"surname"   : "malik",
+    "birth_date": "2000-01-30",
+    "email"     : "15128@stemegypt.edu.eg",
+    "address"   : "Yedikule, Haci Evhaddin Cd. No:65, 34107 Fatih/İstanbul",
+    "latitude"  : 40.99874626049071,
+    "longitude" : 28.92417856793182
+}
+###
+POST http://localhost:5000/signup
+Content-type: application/json
+
+{ 
+    "username"  : "zozi",
+    "password"  : "zuko",
+	"name"      : "aang",
+	"surname"   : "malik",
+    "birth_date": "2010-05-17",
+    "email"     : "15128@stemegypt.edu.eg",
+    "address"   : "Caglayan, Abide-i Hurriyet Cd No:223, 34403 Kagithane/Istanbul",
+    "latitude"  : 41.06951495861081,
+    "longitude" : 28.9798085481328
+}
+###
+POST http://localhost:5000/signup
+Content-type: application/json
+
+{ 
+    "username"  : "kitara",
+    "password"  : "water",
+	"name"      : "kate",
+	"surname"   : "Williams",
+    "birth_date": "2015-12-04",
+    "email"     : "15128@stemegypt.edu.eg",
+    "address"   : "19 Mayis, Buyukdere Cd. No:22, 34360 Sisli/Istanbul",
+    "latitude"  : 41.06343204287864, 
+    "longitude" : 28.992425659274332
+}
+###
+POST http://localhost:5000/login
+Content-type: application/json
+
+{
+    "username": "alizade",
+    "password": "husrev"
+}
+###
+POST http://localhost:5000/login
+Content-type: application/json
+
+{
+    "username": "zozi",
+    "password": "zuko"
+}
+###
+POST http://localhost:5000/login
+Content-type: application/json
+
+{
+    "username": "kitara",
+    "password": "water"
+}
+###
+GET  http://localhost:5000/addBar/Istanbul%20Barosu/Istiklal%20Caddesi,%20Orhan%20Adli%20Apaydin%20Sokak,%20No:2,%2034430,%20Beyoglu%20ISTANBUL/1/41.03059878986375/28.975040262566
+Content-Type: application/json
+
+###
+
+GET http://localhost:5000/addBar/Istanbul%20%202.Nolu%20Barosu/Ord%20Prof%20Dr%20Fahrettin%20Kerim%20Gokay%20Caddesi%20No:31%20Altunizade%20Uskudar%20Istanbul/1/41.02086192231726/29.046171559523998
+Content-Type: application/json
+
+###
+GET http://localhost:5000/addBar/Deniz%20Barosu/Suleyman%20Seba%20Cad.%20acisu%20Sok.%20Tahsin%20Bey%20Apt,%20No:1%20D:12%20,%2034357%20Besiktas/1/41.04389082773602/28.999050675135965
+Content-Type: application/json
+
+###
+GET http://localhost:5000/barsInCity/Istanbul
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg4OTYzMTUsImV4cCI6MTY4ODkwMTcxNX0.BmGz3WXXrs3o_auxZerGTCcbVMIHc1Zc9tCyDbiCvCw
+
+###
+
+GET http://localhost:5000/listCities
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg5MTM3MTAsImV4cCI6MTY4ODkxOTExMH0.JFYeCTHHggbh90tyt_S4vgXbubVnBHPJggUZ2--vDes
+
+###
+POST http://localhost:5000/refreshToken
+Content-Type: application/json
+
+{
+    "username":"alizade",
+    "refreshtoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InpheW5mYW4iLCJpYXQiOjE2ODg2NzMyODF9.t7Dy4Fu008rVQnwmbWCRDn7lVYhV2Qb7LW9qwVm-318"
+}
+###
+POST http://localhost:5000/sendEmail
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg5MTM3MTAsImV4cCI6MTY4ODkxOTExMH0.JFYeCTHHggbh90tyt_S4vgXbubVnBHPJggUZ2--vDes
+
+###
+POST http://localhost:5000/sendEmail
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InpvemkiLCJpYXQiOjE2ODg5MTM3MzIsImV4cCI6MTY4ODkxOTEzMn0.7cRFSdMQUNqhWj8dqMueAffHqBFWPcLkLJsaQvCutnA
+
+###
+POST http://localhost:5000/sendEmail
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpdGFyYSIsImlhdCI6MTY4ODkxMzc1NywiZXhwIjoxNjg4OTE5MTU3fQ.v2bV2yzGVQsA-UQpMMlybG3dJdTxMHC3I7TG4B66Ewo
+
+###
+ 
+GET  http://localhost:5000/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg5MTQwMjYsImV4cCI6MTY4ODkxOTQyNn0.AAncFgmP75_PdmigtZ6usT_Ck5Nu91O8tZl4DQggYW8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg5MTM3MTAsImV4cCI6MTY4ODkxOTExMH0.JFYeCTHHggbh90tyt_S4vgXbubVnBHPJggUZ2--vDes
+
+###
+GET   http://localhost:5000/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InpvemkiLCJpYXQiOjE2ODg5MTQwMzAsImV4cCI6MTY4ODkxOTQzMH0.Z21VmqsW1n5yat9FVVR5JAVMz8XMIiJanr_sEpHujR4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InpvemkiLCJpYXQiOjE2ODg5MTM3MzIsImV4cCI6MTY4ODkxOTEzMn0.7cRFSdMQUNqhWj8dqMueAffHqBFWPcLkLJsaQvCutnA
+
+###
+GET  http://localhost:5000/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpdGFyYSIsImlhdCI6MTY4ODkxNDAzNCwiZXhwIjoxNjg4OTE5NDM0fQ.qJBXYbk4n-1VxsfF4MCk8GGsCVx4GaSCYP4LfaSZ6tM
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpdGFyYSIsImlhdCI6MTY4ODkxMzc1NywiZXhwIjoxNjg4OTE5MTU3fQ.v2bV2yzGVQsA-UQpMMlybG3dJdTxMHC3I7TG4B66Ewo
+
+###
+GET http://localhost:5000/register/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg5MTM3MTAsImV4cCI6MTY4ODkxOTExMH0.JFYeCTHHggbh90tyt_S4vgXbubVnBHPJggUZ2--vDes
+
+###
+GET http://localhost:5000/register/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InpvemkiLCJpYXQiOjE2ODg5MTM3MzIsImV4cCI6MTY4ODkxOTEzMn0.7cRFSdMQUNqhWj8dqMueAffHqBFWPcLkLJsaQvCutnA
+
+###
+GET http://localhost:5000/register/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpdGFyYSIsImlhdCI6MTY4ODkxMzc1NywiZXhwIjoxNjg4OTE5MTU3fQ.v2bV2yzGVQsA-UQpMMlybG3dJdTxMHC3I7TG4B66Ewo
+
+###
+GET http://localhost:5000/newJob/2023-11-04
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg5MTM3MTAsImV4cCI6MTY4ODkxOTExMH0.JFYeCTHHggbh90tyt_S4vgXbubVnBHPJggUZ2--vDes
+
+###
+GET http://localhost:5000/newJob/2024-09-08
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InpvemkiLCJpYXQiOjE2ODg5MTM3MzIsImV4cCI6MTY4ODkxOTEzMn0.7cRFSdMQUNqhWj8dqMueAffHqBFWPcLkLJsaQvCutnA
+
+###
+GET http://localhost:5000/newJob/2023-12-04
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpdGFyYSIsImlhdCI6MTY4ODg5NjMxNywiZXhwIjoxNjg4OTAxNzE3fQ.wkUI9YYkVCzE9ogmSp6GtA5gWnJzOIalnTpiadzXOsY
+
+###
+
+GET http://localhost:5000/invite/kitara/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaXphZGUiLCJpYXQiOjE2ODg5MTM3MTAsImV4cCI6MTY4ODkxOTExMH0.JFYeCTHHggbh90tyt_S4vgXbubVnBHPJggUZ2--vDes
+
+###
+GET http://localhost:5000/invitationResponse/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpdGFyYSIsImlhdCI6MTY4ODkxMzc1NywiZXhwIjoxNjg4OTE5MTU3fQ.v2bV2yzGVQsA-UQpMMlybG3dJdTxMHC3I7TG4B66Ewo
+
+
+###
