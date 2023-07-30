@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const jwt = require("jsonwebtoken");
 const accessToken = process.env.ACCESSTOKEN;
-const {LAWYER} = require("../functions/initializeDatabase.ts");
+const {LAWYER} = require("../utils/initializeDatabase.ts");
 
 const authenticateToken = async (req: any, res: any, next: any) => {
     try {
