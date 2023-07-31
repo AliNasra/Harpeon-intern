@@ -5,7 +5,7 @@ const accessToken = process.env.ACCESSTOKEN;
 const { LAWYER } = require("../utils/initializeDatabase.ts");
 
 const generateAccessToken = (async (user: any) => {
-  const newToken = await jwt.sign(user, accessToken, { expiresIn: "5400s" });
+  const newToken = await jwt.sign(user, accessToken, { expiresIn: "540000s" });
   return newToken;
 });
 
