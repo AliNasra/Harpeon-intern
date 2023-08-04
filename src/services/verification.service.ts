@@ -40,7 +40,7 @@ const sendVerificationEmail = async (params: any) => {
                     return { success: false, result: "Message couldn't be sent" };
                 }
                 else {
-                    return { success: true, result: val };
+                    return { success: true, result: token };
                 }
             }
         ).
