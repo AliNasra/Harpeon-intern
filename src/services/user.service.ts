@@ -10,6 +10,23 @@ const jwt = require("jsonwebtoken");
 const jwtKey = process.env.REFRESHTOKEN;
 
 
+const rejectInvitation = (async (params: any) => {
+    return INVITE.destroy({
+        where: {
+            invitation_id: params.invitation_id,
+            invited: params.username
+        },
+    }).then((val: any) => {
+        if (val.success == true) {
+            return { success: true, result: "Cooperation invitation has been rejected successfully" }
+        }
+        else {
+            return { success: false, result: "A problem was encountered" }
+        }
+    }).catch((error: any) => {
+        return { success: false, result: error }
+    });
+});
 
 const acceptInvitation = (async (params: any) => {
     const username = params.username;
@@ -377,4 +394,4 @@ const withdrawResponse = (async (params: any) => {
 
 });
 
-export { getUserProfile, availableLawyers, acceptInvitation, loginUser, rateUser, registerBar, registerUser, sendInvitation, sendWithdrawRequest, withdrawResponse };
+export { getUserProfile, availableLawyers, acceptInvitation, loginUser, rateUser, registerBar, registerUser, sendInvitation, sendWithdrawRequest, withdrawResponse, rejectInvitation };

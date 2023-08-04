@@ -1,4 +1,4 @@
-const { getUserProfile, availableLawyers, acceptInvitation, loginUser, rateUser, registerBar, registerUser, sendInvitation, sendWithdrawRequest, withdrawResponse } = require("../services/user.service");
+const { getUserProfile, availableLawyers, acceptInvitation, loginUser, rateUser, registerBar, registerUser, sendInvitation, sendWithdrawRequest, withdrawResponse, rejectInvitation } = require("../services/user.service");
 const { generateAccessToken } = require("../services/token.service.ts");
 
 
@@ -27,13 +27,28 @@ const invitationResponse = (async (req: any, res: any) => {
     invitation_id: invitation_id,
     username: username
   };
-  const invitationCheck = await acceptInvitation(params);
-  if (invitationCheck.success == true) {
-    return res.status(200).json(invitationCheck);
+  if (req.body.response == "true") {
+    const invitationCheck = await acceptInvitation(params);
+    if (invitationCheck.success == true) {
+      return res.status(200).json(invitationCheck);
+    }
+    else {
+      return res.status(400).json(invitationCheck);
+    }
+  }
+  else if (req.body.response == 'false') {
+    const invitationCheck = await rejectInvitation(params);
+    if (invitationCheck.success == true) {
+      return res.status(200).json(invitationCheck);
+    }
+    else {
+      return res.status(400).json(invitationCheck);
+    }
   }
   else {
-    return res.status(400).json(invitationCheck);
+    return res.status(400).json({ success: false, result: "The inserted response is invalid" });
   }
+
 });
 
 

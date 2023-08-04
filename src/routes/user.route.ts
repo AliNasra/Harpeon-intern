@@ -355,6 +355,14 @@ userRouter.post("/invitationResponse", bodyParser.json(), authenticateToken, inv
    *         type: integer
    *       example:
    *          213
+   *     - in: body
+   *       name: response
+   *       description:  The response to the invitation request with Either true for affirmative response or false for refusal
+   *       required: true
+   *       schema:
+   *         type: string
+   *       example:
+   *          true
    *     description: Allows a lawyer to withdraw from a job case where he/she is an assistant lawyer
    *     responses:
    *       200:
@@ -393,7 +401,7 @@ userRouter.post("/withdraw", bodyParser.json(), authenticateToken, withdraw);
    *       description: The response to the withdraw request with Either true for affirmative response or false for refusal
    *       required: true
    *       schema:
-   *         type: boolean
+   *         type: string
    *       example:
    *         true
    *     description: Allows a user to respond either affirmatively or negatively to a partner's request
@@ -406,7 +414,7 @@ userRouter.post("/withdraw", bodyParser.json(), authenticateToken, withdraw);
 
 userRouter.post("/respondWithdraw", bodyParser.json(), authenticateToken, respondWithdraw);
 
-export{
+export {
    userRouter
 };
 
