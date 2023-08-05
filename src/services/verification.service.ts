@@ -1,4 +1,4 @@
-const { generateAccessToken } = require("../controllers/token.service.ts")
+const { generateAccessToken } = require("../services/token.service.ts")
 const { LAWYER } = require("../utils/initializeDatabase.ts");
 const nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
