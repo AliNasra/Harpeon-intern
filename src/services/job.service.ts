@@ -1,114 +1,89 @@
-const {JOB,LAWYER} = require("../utils/initializeDatabase.ts");
-const {jobSchema} = require("../models/job.ts");
-
-const createJob = (async (params:any)=>{
-    const end_date = params.end_date;
-    const username = params.username;
-    jobSchema.safeParse({
-        principal_lawyer:username,
-        end_date        :end_date
-    })
-    const current_user = await LAWYER.findOne({
-        where:{username:username}
-    });
-    if (current_user.state == false || current_user.verified == false){
-        return {success:false,result:"The user is either not verified or has already created a job already!"};
-    }
-    else{
-        return JOB.create({
-            principal_lawyer:username,
-            end_date        :end_date
-        }).then((val:any)=>{
-            if (!val){
-                return {success:false,result:"Job couldn't be created"};
-            }
-            else{
-                return LAWYER.update(
-                    {state:false},
-                    {where:{username:username}}
-                ).then((val:any)=>{
-                    if (!val){
-                        return {success:false,result:"Problem while updating user state encountered"};
-                    }
-                    else{
-                        return {success:true,result:"Job added successfully"};
-                    }
-                }).catch((error:any)=>{
-                    return {success:false,result:error};
-                })
-                
-            }
-        }).catch((error:any)=>{
-            return {success:false,result:error};
-        })
-    }
-    
-})
+const { generateAccessToken } = require("../services/token.service.ts")
+const { LAWYER } = require("../utils/initializeDatabase.ts");
+const nodemailer = require("nodemailer");
+var smtpTransport = require('nodemailer-smtp-transport');
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
+const adminEmail = process.env.EMAIL;
+const adminPassword = process.env.PASSWORD;
+const accessToken = process.env.ACCESSTOKEN;
+dotenv.config();
 
 
-const setEndJob = (async (params: any) => {
-    const job = await (JOB.findOne({
-        where: {
-            job_id: params.job_id,
-            principal_lawyer: params.username
-        }
-    }));
-    if (!job) {
-        return { success: false, result: "Mismatch Error: The user has to be primary lawyer of the case" }
-    }
-    else {
-        const principal_lawyer = await LAWYER.findOne({
-            where: {
-                username: job.principal_lawyer
+const sendVerificationEmail = async (params: any) => {
+    try {
+        console.log("Email:", adminEmail);
+        console.log("Password:", adminPassword);
+        const user = await LAWYER.findOne({ where: { username: params.username } });
+        const transporter = nodemailer.createTransport(smtpTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            sendmail: true,
+            service: 'gmail',
+            auth: {
+                user: adminEmail,
+                pass: adminPassword
             }
-        });
-        const assistant_lawyer = await LAWYER.findOne({
-            where: {
-                username: job.assitant_lawyer
-            }
-        });
-        if (principal_lawyer) {
-            await LAWYER.update({
-                state: true
-            }, {
-                where: {
-                    username: principal_lawyer.username
-                }
-            });
-        }
-        if (assistant_lawyer) {
-            await LAWYER.update({
-                state: true
-            }, {
-                where: {
-                    username: assistant_lawyer.username
-                }
-            });
-        }
-        return JOB.update({
-            job_ended: true
-        }
-            , {
-                where: {
-                    job_id: params.job_id
-                }
-            }
-        )
-            .then((val: any) => {
+        }));
+        const token = await generateAccessToken(params);
+        const mailConfigurations = {
+            from: adminEmail,
+            to: user.email,
+            subject: 'Email Verification',
+            text: `Copy the link below verify your account http://localhost:5000/verify/${token} `
+        };
+        console.log(mailConfigurations);
+        return await transporter.sendMail(mailConfigurations).then(
+            (val: any) => {
                 if (!val) {
-                    return { success: false, result: "Problem encountered. Please try the service later!" }
+                    return { success: false, result: "Message couldn't be sent" };
                 }
                 else {
-                    return { success: true, result: "Job declared concluded successfully!" }
+                    return { success: true, result: token };
                 }
+            }
+        ).
+            catch((error: any) => {
+                return { success: false, result: "There is a problem with the transporter" };
             })
-            .catch((error: any) => {
-                return { success: false, result: error }
-            })
-    }
-});
 
-export{
-    createJob,
-    setEndJob
-}
+    }
+    catch (error) {
+        console.log(error);
+        return { success: false, result: error };
+    }
+};
+
+
+
+const verifyAccount = async (params: any) => {
+    const token = params.token;
+    const verificationResult = jwt.verify(token, accessToken);
+    console.log("Verification Results:", verificationResult);
+    return LAWYER.findOne({
+        where: { username: verificationResult.username },
+    }).then((result: any) => {
+        if (!result) {
+            return ({ success: false, result: "No user with this token is found" });
+        } else {
+            return LAWYER.update(
+                { verified: true },
+                { where: { username: verificationResult.username } }
+            ).then((val: any) => {
+                return ({ success: true, result: val })
+            })
+                .catch((error: any) => {
+                    return ({ success: false, result: error })
+                })
+        }
+    }).then((val: any) => {
+        return val;
+    })
+        .catch((error: any) => {
+            return ({ success: false, result: error })
+        });
+};
+
+
+export { sendVerificationEmail, verifyAccount };

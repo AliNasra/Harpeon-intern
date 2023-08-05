@@ -58,7 +58,7 @@ const invitationResponse = (async (req: any, res: any) => {
 const invite = async (req: any, res: any) => {
   const payload = {
     inviter: req.body.username,
-    invited: req.body.username,
+    invited: req.body.invitee,
     job_id: parseInt(req.body.job_id)
   };
   const results = await sendInvitation(payload);
@@ -100,7 +100,7 @@ const login = async (req: any, res: any) => {
 const rate = async (req: any, res: any) => {
   const payload = {
     username: req.body.username,
-    rated: req.body.username,
+    rated: req.body.rated,
     rating: req.body.rating
   };
   const results = await rateUser(payload);
