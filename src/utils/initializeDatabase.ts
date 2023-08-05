@@ -22,7 +22,7 @@ const CITY = sequelizer.define("CITY", {
     city_name: {
         type: DataTypes.STRING(250),
         allowNull: false,
-        unique:true,
+        unique: true,
     }
 }, {
     tableName: "CITY"
