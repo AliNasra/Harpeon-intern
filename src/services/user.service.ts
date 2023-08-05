@@ -11,97 +11,101 @@ const jwtKey = process.env.REFRESHTOKEN;
 
 
 const rejectInvitation = (async (params: any) => {
-    return INVITE.destroy({
+    const currentInvitation = await INVITE.findOne({
         where: {
             invitation_id: params.invitation_id,
-            invited: params.username
+            invited: params.username,
+            state: null
         },
-    }).then((val: any) => {
-        if (val.success == true) {
-            return { success: true, result: "Cooperation invitation has been rejected successfully" }
-        }
-        else {
-            return { success: false, result: "A problem was encountered" }
-        }
-    }).catch((error: any) => {
-        return { success: false, result: error }
     });
+    if (currentInvitation) {
+        return currentInvitation.update({
+            state: false
+        }).then((val: any) => {
+            if (val) {
+                return { success: true, result: "Cooperation invitation has been rejected successfully" };
+            }
+            else {
+                return { success: false, result: "A problem was encountered" };
+            }
+        }).catch((error: any) => {
+            return { success: false, result: error };
+        });
+    }
+    else {
+        return { success: false, result: "The invitation was already responded to!" };
+    }
+
 });
 
 const acceptInvitation = (async (params: any) => {
     const username = params.username;
     const invitation_id = params.invitation_id;
-
-    return INVITE.findOne({
-        where: { invitation_id: invitation_id }
-    }).then((val: any) => {
-        if (!val) {
-            return { success: false, result: "Either an invitation of such kind wasn't defined or the invited lawyer took on another job!" }
-        }
-        else {
-            const invitation = val;
-            const invited = invitation.invited;
-            const job_id = invitation.job_id;
-            if (invited != username) {
-                return { success: false, result: "The invitation wasn't directed to the current user!" }
+    const currentInvitation = await INVITE.findOne({
+        where: {
+            invitation_id: params.invitation_id,
+            invited: params.username,
+            state: null
+        },
+    });
+    if (!currentInvitation) {
+        return { success: false, result: "The invitation was already responded to!" };
+    }
+    else {
+        const invitation = currentInvitation;
+        const invited = invitation.invited;
+        const job_id = invitation.job_id;
+        return LAWYER.update({
+            state: false
+        }, {
+            where: {
+                username: invited
             }
-            else {
-                return LAWYER.update({
-                    state: false
-                }, {
-                    where: {
-                        username: invited
-                    }
-                })
-                    .then((val: any) => {
-                        if (!val) {
-                            return { success: false, result: "Couldn't set the invited user's state accordingly" }
-                        }
-                        else {
-                            return JOB.update({
-                                assistant_lawyer: username
-                            }, { where: { job_id: job_id } })
-                                .then((returnval: any) => {
-                                    if (!returnval) {
-                                        (async () => {
-                                            await LAWYER.update({
-                                                state: true
-                                            }, {
-                                                where: {
-                                                    username: invited
-                                                }
-                                            })
-                                        })();
-                                        return { success: false, result: "Couldn't update the job properties accordingly" };
-                                    }
-                                    else {
-                                        return { success: true, result: "Invitation gladly accepted. The lawyer won't be available for sometime!" }
-                                    }
-                                })
-                                .catch((error: any) => {
-                                    (async () => {
-                                        await LAWYER.update({
-                                            state: true
-                                        }, {
-                                            where: {
-                                                username: invited
-                                            }
-                                        })
-                                    })();
-                                    return { success: false, result: error };
-                                })
-                        }
-                    })
-                    .catch((error: any) => {
-                        return { success: false, result: error };
-                    })
-            }
-
-        }
-    })
-        .catch((error: any) => {
-            return { success: false, result: error };
         })
+            .then((val: any) => {
+                if (!val) {
+                    return { success: false, result: "Couldn't set the invited user's state accordingly" }
+                }
+                else {
+                    return JOB.update({
+                        assistant_lawyer: username
+                    }, { where: { job_id: job_id } })
+                        .then((returnval: any) => {
+                            if (!returnval) {
+                                (async () => {
+                                    await LAWYER.update({
+                                        state: true
+                                    }, {
+                                        where: {
+                                            username: invited
+                                        }
+                                    })
+                                })();
+                                return { success: false, result: "Couldn't update the job properties accordingly" };
+                            }
+                            else {
+                                return { success: true, result: "Invitation gladly accepted. The lawyer won't be available for sometime!" }
+                            }
+                        })
+                        .catch((error: any) => {
+                            (async () => {
+                                await LAWYER.update({
+                                    state: true
+                                }, {
+                                    where: {
+                                        username: invited
+                                    }
+                                })
+                            })();
+                            return { success: false, result: error };
+                        })
+                }
+            })
+            .catch((error: any) => {
+                return { success: false, result: error };
+            })
+
+    }
 });
 
 

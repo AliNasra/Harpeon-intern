@@ -186,6 +186,10 @@ const INVITE = sequelizer.define("INVITE", {
     job_id: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    state: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: null
     }
 }, {
     tableName: "INVITE"
