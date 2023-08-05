@@ -7,14 +7,14 @@ const { createJob, setEndJob } = require("../services/job.service.ts");
 const endJob = (async (req: any, res: any) => {
     const params = {
         username: req.body.username,
-        job_id: req.body.job_id,,
+        job_id: req.body.job_id,
     }
     const sendRequest = await setEndJob(params);
     if (sendRequest.success == true) {
-        return res.state(200).json(sendRequest);
+        return res.status(200).json(sendRequest);
     }
     else {
-        return res.state(400).json(sendRequest);
+        return res.status(400).json(sendRequest);
     }
 });
 
