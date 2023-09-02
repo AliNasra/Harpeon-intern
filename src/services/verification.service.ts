@@ -45,7 +45,7 @@ const sendVerificationEmail = async (params: any) => {
             }
         ).
             catch((error: any) => {
-                return { success: false, result: error };
+                return { success: false, result: "There is a problem with the transporter" };
             })
 
     }

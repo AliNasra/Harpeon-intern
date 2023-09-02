@@ -1,7 +1,4 @@
 const { INVITE, LAWYER, JOB, BAR, sequelizer, RATE } = require("../utils/initializeDatabase.ts");
-const { rateSchema } = require("../models/rate.ts");
-const { inviteSchema } = require("../models/invitation.ts");
-const { lawyerSchema } = require("../models/lawyer.ts");
 var bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -193,11 +190,6 @@ const rateUser = async (params: any) => {
     const rater = params.username;
     const rated = params.rated;
     const rating = params.rating;
-    rateSchema.safeParse({
-        rater: rater,
-        rated: rated,
-        rating: parseInt(rating),
-    });
     return RATE.create({
         rater: rater,
         rated: rated,
@@ -230,7 +222,6 @@ const registerBar = async (data: any) => {
 const registerUser = function (reqBody: any) {
     const dataBody = reqBody;
     var refreshtokenUser = jwt.sign({ username: dataBody.username }, jwtKey);
-    lawyerSchema.safeParse(dataBody);
     var hashedPassword = bcrypt.hashSync(dataBody.password, 10);
     return LAWYER.create({
         username: dataBody.username,
@@ -259,11 +250,7 @@ const sendInvitation = async (params: any) => {
         const inviter = params.inviter;
         const invited = params.invited;
         const job_id = params.job_id;
-        inviteSchema.parse({
-            inviter: inviter,
-            invited: invited,
-            job_id: job_id,
-        });
+
         const verificationCheckInviter = await LAWYER.findOne({
             attributes: ['verified', 'state'],
             where: { username: inviter }

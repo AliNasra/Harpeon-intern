@@ -3,8 +3,9 @@ dotenv.config();
 const jwt = require("jsonwebtoken");
 const accessToken = process.env.ACCESSTOKEN;
 const {LAWYER} = require("../utils/initializeDatabase.ts");
+import { Request, Response, NextFunction } from 'express';
 
-const authenticateToken = async (req: any, res: any, next: any) => {
+const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userHeader = req.get("Authorization");
       if (!userHeader) {

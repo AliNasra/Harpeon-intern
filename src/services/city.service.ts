@@ -1,8 +1,6 @@
-const { citySchema } = require("../models/city.ts");
 const { CITY } = require("../utils/initializeDatabase.ts");
 
 const addCity = (data: any) => {
-  citySchema.safeParse(data);
   return CITY.create({
     city_name: data.city_name,
   }).then(() => {

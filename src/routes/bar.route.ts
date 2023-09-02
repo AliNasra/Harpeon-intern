@@ -1,5 +1,6 @@
 const express = require("express");
 const { authenticateToken } = require("../middleware/authenticateToken.ts");
+const { verifyBar } = require("../middleware/verify.bar.ts");
 const { barsInCity, appendBar } = require("../controllers/bar.controller.ts")
 var bodyParser = require("body-parser");
 const barRouter = express.Router();
@@ -60,7 +61,7 @@ const barRouter = express.Router();
    *         description: The bar couldn't be added to the database
    */
 
-barRouter.post("/addBar", bodyParser.json(), appendBar);
+barRouter.post("/addBar", bodyParser.json(), verifyBar, appendBar);
 
 /**
    * @openapi

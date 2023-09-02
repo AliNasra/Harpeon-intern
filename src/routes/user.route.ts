@@ -2,6 +2,10 @@ const { withdraw, signup, showProfile, respondWithdraw, register, rate, login, i
    freeLawyers } = require("../controllers/user.controller.ts");
 const express = require("express");
 const { authenticateToken } = require("../middleware/authenticateToken.ts");
+const { verifyInvitation } = require("../middleware/verify.invitation.ts");
+const { verifyLawyer } = require("../middleware/verify.lawyer.ts");
+const { verifyRate } = require("../middleware/verify.rate.ts");
+
 var bodyParser = require("body-parser");
 const userRouter = express.Router();
 
@@ -93,7 +97,7 @@ const userRouter = express.Router();
    *          description: The inserted data may not be consistent with the defined schema of the user
    */
 
-userRouter.post("/signup", bodyParser.json(), signup);
+userRouter.post("/signup", bodyParser.json(), verifyLawyer, signup);
 
 /**
    * @openapi
@@ -192,7 +196,7 @@ userRouter.post("/availableLawyers", bodyParser.json(), authenticateToken, freeL
    *         description: Data inconsistency where either the user didn't create that job or the user isn't verified yet or the entered invitee username doesn't exist
    */
 
-userRouter.post("/invite", bodyParser.json(), authenticateToken, invite);
+userRouter.post("/invite", bodyParser.json(), authenticateToken, verifyInvitation, invite);
 
 /**
    * @openapi
@@ -231,7 +235,7 @@ userRouter.post("/invite", bodyParser.json(), authenticateToken, invite);
    *         description: The ratee username doesn't exist
    */
 
-userRouter.post("/rateLawyer", bodyParser.json(), authenticateToken, rate);
+userRouter.post("/rateLawyer", bodyParser.json(), authenticateToken, verifyRate, rate);
 
 /**
    * @openapi

@@ -1,9 +1,7 @@
 const { CITY } = require("../utils/initializeDatabase.ts");
 const { BAR } = require("../utils/initializeDatabase.ts");
-const { barSchema } = require("../models/bar.ts");
 
 const addBar = (data: any) => {
-    barSchema.safeParse(data);
     const name = data.bar_name;
     const address = data.address;
     const latitude = data.latitude;

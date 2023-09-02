@@ -2,6 +2,7 @@ const express = require("express");
 const jobRouter = express.Router();
 const { newJob, endJob } = require("../controllers/job.controller.ts")
 const { authenticateToken } = require("../middleware/authenticateToken.ts");
+const { verifyJob } = require("../middleware/verify.job.ts");
 var bodyParser = require("body-parser");
 
 
@@ -36,7 +37,7 @@ var bodyParser = require("body-parser");
    *         description: The user is either unverified or unavailable
    */
 
-jobRouter.post("/newJob", bodyParser.json(), authenticateToken, newJob);
+jobRouter.post("/newJob", bodyParser.json(), authenticateToken, verifyJob, newJob);
 
 /**
    * @openapi

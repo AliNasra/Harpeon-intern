@@ -1,13 +1,8 @@
 const {JOB,LAWYER} = require("../utils/initializeDatabase.ts");
-const {jobSchema} = require("../models/job.ts");
 
 const createJob = (async (params:any)=>{
     const end_date = params.end_date;
     const username = params.username;
-    jobSchema.safeParse({
-        principal_lawyer:username,
-        end_date        :end_date
-    })
     const current_user = await LAWYER.findOne({
         where:{username:username}
     });

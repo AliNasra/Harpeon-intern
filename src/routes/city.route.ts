@@ -1,5 +1,6 @@
 const express = require("express");
 const { authenticateToken } = require("../middleware/authenticateToken.ts");
+const { verifyCity } = require("../middleware/verify.city.ts");
 const { listCities, appendCity } = require("../controllers/city.controller.ts")
 var bodyParser = require("body-parser");
 const cityRouter = express.Router();
@@ -28,7 +29,7 @@ const cityRouter = express.Router();
    *         description: The city couldn't be added to the database
    */
 
-cityRouter.post("/addCity", bodyParser.json(), appendCity);
+cityRouter.post("/addCity", bodyParser.json(), verifyCity, appendCity);
 
 /**
    * @openapi
@@ -56,6 +57,6 @@ cityRouter.post("/addCity", bodyParser.json(), appendCity);
 
 cityRouter.post("/listCities", bodyParser.json(), authenticateToken, listCities);
 
-export{
+export {
    cityRouter
 };
